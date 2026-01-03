@@ -42,7 +42,6 @@ export default function Home() {
   }
 
   return (
-    /* Updated background from dark gradient to clean white */
     <div className="min-h-screen bg-white">
       <Header />
       <main className="max-w-6xl mx-auto px-4 py-12">
@@ -52,7 +51,6 @@ export default function Home() {
           <div className="space-y-8">
             <button
               onClick={() => setAnalysisData(null)}
-              /* Updated button color from indigo to black */
               className="text-black hover:text-gray-600 transition-colors underline"
             >
               ← Upload Another Resume

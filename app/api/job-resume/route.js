@@ -363,7 +363,6 @@ export async function POST(request) {
 
     console.log("[job-resume] Extracted text length:", resumeText.length)
 
-    // Use desiredRole as desiredRoles for compatibility with existing functions
     const desiredRoles = desiredRole
 
     const { skills, yearsOfExperience, experienceLevel } = extractSkillsAndExperience(resumeText, desiredRoles)
@@ -404,14 +403,12 @@ export async function POST(request) {
       const roleText = role.toLowerCase()
       let score = 50
 
-      // Calculate match based on skills and experience
       skills.forEach((skill) => {
         if (roleText.includes(skill.toLowerCase())) {
           score += 15
         }
       })
 
-      // Adjust based on experience level
       if (roleText.includes("senior") && experienceLevel === "Senior") score += 20
       if (roleText.includes("junior") && experienceLevel === "Junior") score += 20
       if (roleText.includes("mid") && experienceLevel === "Mid-level") score += 20
@@ -422,7 +419,7 @@ export async function POST(request) {
     return Response.json({
       experienceLevel,
       yearsOfExperience,
-      skills: skills.slice(0, 8), // Show more skills
+      skills: skills.slice(0, 8),
       matchScores,
       jobs: jobsWithSuggestions.sort((a, b) => b.matchPercentage - a.matchPercentage),
       recommendations,

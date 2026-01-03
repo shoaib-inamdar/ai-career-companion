@@ -12,8 +12,6 @@ export async function GET(req) {
     return NextResponse.json(token);
 }
 
-// exprires in -> exprires_in_seconds
-//realtime -> streaming
 
 
 /*

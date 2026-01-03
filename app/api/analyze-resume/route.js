@@ -136,7 +136,7 @@ Respond with ONLY one of these exact values and nothing else:
     return level
   } catch (error) {
     console.error("[v0] Error determining level:", error instanceof Error ? error.message : String(error))
-    return "mid_level" // Default to mid-level if detection fails
+    return "mid_level" 
   }
 }
 

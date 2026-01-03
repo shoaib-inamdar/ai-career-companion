@@ -29,7 +29,7 @@ export const AIModel = async (topic, coachingOption,conversation, newUserUtteran
   ];
 
         const completion = await openai.chat.completions.create({
-                model: "meta-llama/llama-4-scout:free",
+                model: "allenai/olmo-3.1-32b-think:free",
                 messages
         });
 
@@ -43,7 +43,7 @@ export const AIModelToGenerateFeedbackAndNotes = async (ExpertsLists, conversati
         const PROMPT = (option.summeryPrompt)
 
         const completion = await openai.chat.completions.create({
-                model: "meta-llama/llama-4-scout:free",
+                model: "allenai/olmo-3.1-32b-think:free",
                 messages: [
                   ...conversation,
                         { role: "assistant", content: PROMPT },

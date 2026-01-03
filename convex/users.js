@@ -1,33 +1,31 @@
 import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 
-export const CreateUser = mutation({
-    args: {
-        name: v.string(),
-        email: v.string()
+export const CreateUser=mutation({
+    args:{
+        name:v.string(),
+        email:v.string()
     },
+    handler:async(convexToJson,args)=>{
+        const userData=await convexToJson.db.query('users')
+        .filter(q=>q.eq(q.field('email'),args.email))
+        .collect();
 
-    handler: async (ctx, args) => {
-        // if user already exist
-        const userData = await ctx.db.query('users')
-            .filter(q => q.eq(q.field('email'), args.email))
-            .collect();
-        //If not Then add new user
-        if (userData ?. length == 0) {
-            const data = {
-                name: args.name,
-                email: args.email,
-                credits: 50000
-            };
-            const result = await ctx.db.insert('users', {
+        if(userData?.length==0)
+        {
+            const data={
+                name:args.name,
+                email:args.email,
+                credits:50000
+            }
+            const result=await convexToJson.db.insert('users',{
                 ...data
             });
-            console.log(result);
-            return data;
+            return { _id: result, ...data };
         }
-        return userData[0];
+        return userData[0]
     }
-}); 
+})
 
 export const UpdateUserToken = mutation({
     args: {

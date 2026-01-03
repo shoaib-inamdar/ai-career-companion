@@ -44,13 +44,13 @@ function DiscussionRoom() {
   }]);
   const [loading, setLoading] = useState(false);
 
-  // --- AI Rate Limiting and Batching ---
-  const aiRequestQueue = useRef([]); // Queue for pending user utterances
-  const aiRequestsThisMinute = useRef(0); // Counter for requests sent in the current minute
-  const aiTimer = useRef(null); // Timer for resetting the counter
-  const isProcessingQueue = useRef(false); // Prevent concurrent queue processing
+  
+  
+  const aiRequestQueue = useRef([]); 
+  const aiRequestsThisMinute = useRef(0);
+  const aiTimer = useRef(null);
+  const isProcessingQueue = useRef(false); 
 
-  // Helper to process the queue respecting the rate limit
   const processAIQueue = async () => {
   if (isProcessingQueue.current) return;
   isProcessingQueue.current = true;
@@ -58,45 +58,41 @@ function DiscussionRoom() {
     while (aiRequestsThisMinute.current < 4 && aiRequestQueue.current.length > 0) {
       let toSend = [];
       if (aiRequestQueue.current.length > 4) {
-        // Batch all as one multi-turn user input
+
         toSend = aiRequestQueue.current.splice(0, aiRequestQueue.current.length);
       } else {
-        // Single utterance
+
         toSend = [aiRequestQueue.current.shift()];
       }
 
-      // Get CURRENT conversation snapshot (before appending new users)
-      const currentConversation = [...conversation];  // Clone to avoid stale closure
+
+      const currentConversation = [...conversation]; 
 
       setLoading(true);
-      // Pass full history + new utterances
       const aiResp = await AIModel(
         DiscussionRoomData.topic,
         DiscussionRoomData.coachingOption,
         currentConversation,
-        toSend.map(item => item.utterance)  // Array for batching
+        toSend.map(item => item.utterance) 
       );
       setLoading(false);
 
-      // Convert to speech (unchanged)
       const url = await ConvertTextToSpeech(aiResp.content, DiscussionRoomData.expertName);
       setAudioUrl(url);
 
-      // Append: new user utterances FIRST, then AI response (maintains order)
       setConversation(prev => [
         ...prev,
         ...toSend.map(item => ({ role: "user", content: item.utterance })),
         aiResp  // { role: "assistant", content: ... }
       ]);
       aiRequestsThisMinute.current++;
-      // await updateUserTokenMethod(aiResp.content); // upadte AI generated token 
+      // await updateUserTokenMethod(aiResp.content);
     }
   } finally {
     isProcessingQueue.current = false;
   }
 };
 
-  // Timer to reset the request counter every minute and process the queue
   useEffect(() => {
     aiTimer.current = setInterval(() => {
       aiRequestsThisMinute.current = 0;
@@ -105,7 +101,6 @@ function DiscussionRoom() {
     return () => clearInterval(aiTimer.current);
   }, []);
 
-  // When a new utterance is received, push to queue and process
   const handleUserUtterance = (utterance) => {
     aiRequestQueue.current.push({ utterance });
     processAIQueue();
@@ -128,7 +123,7 @@ function DiscussionRoom() {
 
     try {
       if (typeof window !== "undefined" && typeof navigator !== "undefined") {
-        // Step 2: Load RecordRTC
+
         if (!RecordRTC) {
           console.log("[Step 2] Dynamically importing RecordRTC...");
           const module = await import("recordrtc");
@@ -136,7 +131,7 @@ function DiscussionRoom() {
           console.log("[Step 2] RecordRTC imported:", RecordRTC);
         }
 
-        // Step 3: Get AssemblyAI token and connect manually to WebSocket
+
         console.log("[Step 3] Fetching token...");
         const token = await getToken();
         const wsUrl = `wss://streaming.assemblyai.com/v3/ws?sample_rate=16_000&token=${token}`;
@@ -165,7 +160,7 @@ function DiscussionRoom() {
           if (data.type === "Turn" && data.end_of_turn && data.transcript) {
             const newUtterance = data.transcript;
             setTranscribe(newUtterance);
-            // Instead of calling AIModel directly, queue the request
+
             handleUserUtterance(newUtterance);
           }
 
@@ -173,12 +168,12 @@ function DiscussionRoom() {
 
         };
 
-        // Step 4: Request microphone access
+
         console.log("[Step 4] Requesting microphone access...");
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         console.log("[Step 4] Microphone access granted");
 
-        // Step 5: Initialize and start RecordRTC
+
         console.log("[Step 5] Initializing RecordRTC...");
         recorder.current = new RecordRTC(stream, {
           type: "audio",

@@ -106,7 +106,6 @@ export default function ResumeUpload({ onAnalyze, loading, error }) {
               />
             </div>
 
-            {/* Error Message with special handling for rate limits */}
             {error && (
               <div
                 className={`p-3 rounded-lg text-sm flex items-start gap-2 ${isRateLimitError ? "bg-yellow-50 text-yellow-800 border border-yellow-200" : "bg-destructive/10 text-destructive"}`}
