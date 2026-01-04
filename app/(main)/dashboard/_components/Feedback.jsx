@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import moment from 'moment';
 import Link from 'next/link';
+import { MessageSquare, Star, Award, Clock } from 'lucide-react';
 
 function Feedback() {
 
@@ -41,28 +42,62 @@ function Feedback() {
 
     return (
         <div>
-            <h2 className='font-bold text-xl'>Feedback</h2>
+            <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
+                    <MessageSquare className="w-5 h-5 text-white" />
+                </div>
+                <h2 className='font-bold text-2xl text-gray-900'>Feedback</h2>
+            </div>
 
-            {discussionRoomList?.length==0&&<h2 className='text-gray-400'>you dont have any previous sessions</h2>}
+            {discussionRoomList?.length==0 && (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="p-4 bg-purple-100 rounded-full mb-4">
+                        <Award className="w-12 h-12 text-purple-600" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2">No feedback yet</h3>
+                    <p className='text-gray-500'>Complete an interview to get feedback!</p>
+                </div>
+            )}
 
-
-            <div className='mt-5'>
+            <div className='space-y-4'>
                 {discussionRoomList?.map((item,index)=> (item.coachingOption=='Mock Interview'||item.coachingOption=='Ques Ans Prep')&&(
-                    <div key={index} className='border-b-[1px] pb-3 mb-4 group flex justify-between items-center cursor-pointer'> 
-                        <div className='items-center flex gap-7'>
-                            <Image src={GetAbstractImages(item.coachingOption)} alt='abstract' width={50} height={50} className='rounded-full w-10 h-10' />
-                           
+                    <div key={index} className='group bg-gradient-to-r from-purple-50 to-transparent hover:from-purple-100 hover:to-purple-50 rounded-xl p-4 border border-purple-200/50 hover-lift transition-smooth cursor-pointer'> 
+                        <div className='flex justify-between items-center'>
+                            <div className='flex items-center gap-4 flex-1'>
+                                <div className="relative">
+                                    <Image 
+                                        src={GetAbstractImages(item.coachingOption)} 
+                                        alt='abstract' 
+                                        width={48} 
+                                        height={48} 
+                                        className='rounded-full w-12 h-12 ring-2 ring-purple-200 group-hover:ring-purple-400 transition-all' 
+                                    />
+                                    <div className="absolute -bottom-1 -right-1 p-1 bg-purple-500 rounded-full">
+                                        <Star className="w-3 h-3 text-white" />
+                                    </div>
+                                </div>
 
-                        <div>
-                            <h2 className='font-bold'>{item.topic}</h2>
-                            <h2 className='text-gray-400'>{item.coachingOption}</h2>
-                            <h2 className='text-gray-400 text-sm'>{moment(item._creationTime).fromNow()}</h2>
+                                <div className='flex-1'>
+                                    <h2 className='font-bold text-gray-900 mb-1 group-hover:text-purple-700 transition-colors'>{item.topic}</h2>
+                                    <div className="flex items-center gap-3 text-sm">
+                                        <span className='px-2 py-1 bg-purple-100 text-purple-700 rounded-md font-medium'>{item.coachingOption}</span>
+                                        <div className="flex items-center gap-1 text-gray-500">
+                                            <Clock className="w-3 h-3" />
+                                            <span>{moment(item._creationTime).fromNow()}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             
+                            <Link href={'/view-summary/'+item._id}> 
+                                <Button 
+                                    variant={'outline'} 
+                                    className='opacity-0 group-hover:opacity-100 transition-opacity bg-white hover:bg-purple-50 border-purple-300 text-purple-700 hover:text-purple-800'
+                                >
+                                    View Notes
+                                </Button>
+                            </Link>
                         </div>
-                        </div>
-                        <Link href={'/view-summary/'+item._id}> 
-                        <Button variant={'outline'} className='invisible group-hover:visible'>View Notes</Button>
-                        </Link>
                     </div>
                 ))}
             </div>
