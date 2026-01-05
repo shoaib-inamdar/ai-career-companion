@@ -36,7 +36,7 @@ async function extractTextFromImage(buffer, mimeType) {
   try {
     console.log("[job-resume] Attempting image text extraction via Gemini vision")
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" })
     const base64Image = buffer.toString("base64")
 
     const result = await model.generateContent([
@@ -277,7 +277,7 @@ Provide exactly 4 recommendations, one per line, without numbering or bullet poi
 
   try {
     const { text: recommendationText } = await generateText({
-      model: google("gemini-2.0-flash"),
+      model: google("gemini-2.5-flash-preview-09-2025"),
       prompt: recommendationPrompt,
       temperature: 0.6,
       maxTokens: 500,

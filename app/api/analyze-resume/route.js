@@ -53,7 +53,7 @@ async function extractTextFromImage(buffer, mimeType, genAI) {
     console.log("[v0] Attempting image text extraction via Gemini vision")
 
     const extractedText = await retryWithBackoff(async () => {
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" })
       const base64Image = buffer.toString("base64")
 
       const result = await model.generateContent([
@@ -128,7 +128,7 @@ Respond with ONLY one of these exact values and nothing else:
 - "expert_level" (10+ years experience, multiple roles, significant impact)
 - "career_changer" (experienced in different field, no direct experience in target role)`
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" })
     const result = await model.generateContent(levelPrompt)
     const level = result.response.text().trim().toLowerCase()
 
@@ -154,7 +154,7 @@ async function analyzeWithGemini(resumeText, desiredRole){
 
     console.log("[v0] Extracting current skills from resume")
     const currentSkillsText = await retryWithBackoff(async () => {
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" })
       const skillsPrompt = `Extract ONLY the technical skills from this resume. List them as a comma-separated string with no additional text.
 
 Resume:
@@ -171,7 +171,7 @@ Respond with ONLY the skill list, nothing else.`
 
     console.log("[v0] Determining required skills for target role:", desiredRole)
     const requiredSkillsText = await retryWithBackoff(async () => {
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" })
       const skillsPrompt = `List the top technical skills required for a ${desiredRole} role. List them as a comma-separated string with no additional text.
 
 Respond with ONLY the skill list, nothing else. Focus on practical, learnable skills.`
@@ -318,7 +318,7 @@ For each stage, provide 2-4 resourceLinks that are directly relevant to the skil
     console.log("[v0] Sending skill-gap focused prompt to Gemini API, prompt length:", fullPrompt.length)
 
     const analysis = await retryWithBackoff(async () => {
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-preview-09-2025" })
       const result = await model.generateContent(fullPrompt)
 
       console.log("[v0] Gemini response received")
