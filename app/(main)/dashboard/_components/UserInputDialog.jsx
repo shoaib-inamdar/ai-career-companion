@@ -54,7 +54,10 @@ function UserInputDialog({children, ExpertsList}) {
             <DialogDescription asChild>
                 <div className='mt-3'>
                     <h2 className='text-black'>Enter a topic to master in {ExpertsList.name}</h2>
-                    <Textarea placeholder='Enter your topic here...' className='mt-2'
+                    <p className='text-sm text-gray-600 mt-2 mb-2'>
+                      💡 Enter any topic: Technical (React, Python), Competitive Exams (UPSC, JEE, NEET), Professional (Law, Medicine, Business), Languages, or any subject!
+                    </p>
+                    <Textarea placeholder='e.g., React.js, UPSC Polity, Medical Anatomy, Corporate Law, Data Science, IELTS Speaking...' className='mt-2'
                     onChange={(e)=>setUserTopic(e.target.value)}/>
 
                     <h2 className='text-black mt-5'>Select a Coaching Expert</h2>

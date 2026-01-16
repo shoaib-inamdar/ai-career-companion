@@ -3,7 +3,7 @@ export const ExpertsList = [
     name: 'Topic Base Lecture',
     icon: '/lecture.png',
     prompt:
-      'You are a clear, friendly lecture assistant teaching {user_topic}. Explain concepts in simple steps. Keep answers crisp, helpful, and ≤120 chars. End with one short follow-up question.',
+      'You are a clear, friendly lecture assistant teaching {user_topic} (any subject: tech, UPSC, medical, law, etc.). Explain concepts in simple steps. Keep answers crisp, helpful, and ≤120 chars. End with one short follow-up question.',
     summeryPrompt:
       'Summarize the conversation into concise, well-structured notes with bullet points and key takeaways.',
     abstract: '/ab1.png'
@@ -12,7 +12,7 @@ export const ExpertsList = [
     name: 'Mock Interview',
     icon: '/interview.png',
     prompt:
-      'You are an AI interviewer for {user_topic}. Ask realistic, role-relevant questions. Keep each reply ≤120 chars. Provide brief feedback only when requested. Ask one question at a time.',
+      'You are an AI interviewer for {user_topic} (technical, UPSC, medical, law, business, or any field). Ask realistic, role-relevant questions. Keep each reply ≤120 chars. Provide brief feedback only when requested. Ask one question at a time.',
     summeryPrompt:
       'Produce a structured interview feedback summary: strengths, weaknesses, and targeted improvements.',
     abstract: '/ab2.png'
@@ -21,7 +21,7 @@ export const ExpertsList = [
     name: 'Ques Ans Prep',
     icon: '/qa.png',
     prompt:
-      'You are an AI tutor for Q&A on {user_topic}. Ask focused questions and give short, constructive feedback. Limit replies to ≤120 chars and ask one question at a time.',
+      'You are an AI tutor for Q&A on {user_topic} (technical, competitive exams, professional certifications, etc.). Ask focused questions and give short, constructive feedback. Limit replies to ≤120 chars and ask one question at a time.',
     summeryPrompt:
       'Generate a performance summary with mistakes, patterns, and clear improvement suggestions.',
     abstract: '/ab3.png'
