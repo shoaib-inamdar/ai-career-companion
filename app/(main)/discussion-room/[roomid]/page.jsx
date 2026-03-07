@@ -134,7 +134,7 @@ function DiscussionRoom() {
 
         console.log("[Step 3] Fetching token...");
         const token = await getToken();
-        const wsUrl = `wss://streaming.assemblyai.com/v3/ws?sample_rate=16_000&token=${token}`;
+        const wsUrl = `wss://streaming.assemblyai.com/v3/ws?sample_rate=16_000&token=${token}&end_of_turn_silence_threshold=2500`;
 
         console.log("[Step 3] Connecting to AssemblyAI WebSocket manually...");
         socket.current = new WebSocket(wsUrl);
